@@ -1,65 +1,8 @@
-name: Build Android APK
+Run ./gradlew assembleRelease --no-daemon
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-  workflow_dispatch:
+ERROR: JAVA_HOME is set to an invalid directory: /opt/hostedtoolcache/jdk/17.0.0/zulu
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+Please set the JAVA_HOME variable in your environment to match the
+location of your Java installation.
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Java JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'zulu'
-
-      - name: Set up Android SDK
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y wget unzip
-
-          # Set up ANDROID_HOME environment variable
-          echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> $GITHUB_ENV
-
-          # Create SDK directories
-          mkdir -p $ANDROID_HOME/cmdline-tools/latest
-
-          # Download and extract command line tools
-          wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O cmdline-tools.zip
-          unzip cmdline-tools.zip -d $ANDROID_HOME/cmdline-tools/latest
-
-          # Accept licenses and install platform tools and build tools
-          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.0"
-
-      - name: Cache Gradle packages
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: Build APK
-        run: ./gradlew assembleRelease --no-daemon
-        env:
-          ANDROID_HOME: /usr/local/lib/android/sdk
-          JAVA_HOME: /opt/hostedtoolcache/jdk/17.0.0/zulu
-
-      - name: Archive APK
-        uses: actions/upload-artifact@v3
-        with:
-          name: release-apk
-          path: app/build/outputs/apk/release/app-release.apk
+Error: Process completed with exit code 1.
