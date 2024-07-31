@@ -17,13 +17,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up JDK
+      - name: Set up Java JDK
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'zulu'
 
-      - name: Install Android SDK
+      - name: Set up Android SDK
         run: |
           sudo apt-get update
           sudo apt-get install -y wget unzip
