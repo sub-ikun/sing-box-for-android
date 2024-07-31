@@ -17,20 +17,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Java JDK
+      - name: Set up Java JDK 17
         uses: actions/setup-java@v3
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'zulu'
 
       - name: Set up Android SDK
         run: |
           sudo apt-get update
           sudo apt-get install -y wget unzip
-          
+
           # Set up ANDROID_HOME environment variable
           echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> $GITHUB_ENV
-          
+
           # Create SDK directories
           mkdir -p $ANDROID_HOME/cmdline-tools/latest
 
