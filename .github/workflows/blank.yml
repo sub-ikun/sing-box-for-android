@@ -56,7 +56,7 @@ jobs:
         run: ./gradlew assembleRelease --no-daemon
         env:
           ANDROID_HOME: /usr/local/lib/android/sdk
-          JAVA_HOME: /opt/hostedtoolcache/jdk/17
+          JAVA_HOME: /opt/hostedtoolcache/jdk/17.0.0/zulu
 
       - name: Archive APK
         uses: actions/upload-artifact@v3
